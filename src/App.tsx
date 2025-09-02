@@ -5,7 +5,7 @@ function App() {
   return (
     <>
       <h1>Growy front-end exercise</h1>
-      <img src={growyLogo} className="logo" alt="Vite logo" />
+      <img src={growyLogo} className='logo' alt='Vite logo' />
     </>
   )
 }
