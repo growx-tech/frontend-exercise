@@ -1,4 +1,4 @@
-# Frontend Coding Challenge – Memory Game
+# Frontend Coding Exercise – Memory Game
 
 ## Objective
 
