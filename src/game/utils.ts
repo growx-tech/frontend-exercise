@@ -13,7 +13,12 @@ const allImages = [
   '/plant10.jpg',
   '/plant11.jpg',
   '/plant12.jpg',
-  '/plant13.jpg'
+  '/plant13.jpg',
+  '/plant14.jpg',
+  '/plant15.jpg',
+  '/plant16.jpg',
+  '/plant17.jpg',
+  '/plant18.jpg'
 ]
 
 export function pickImages(pairCount: number): string[] {
