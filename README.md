@@ -1,13 +1,11 @@
 # Frontend Coding Exercise – Memory Game
 
 ## Objective
-
 Build a memory game using **React**. The goal is to demonstrate your ability to design and structure a small application, manage state, and deliver clean, maintainable code.
 
 This is a React project using **TypeScript** and **Tailwind CSS** for styling. You are free to use any tools, libraries, or approaches you prefer. Please use the packages already installed in the project first, and install anything else you need.
 
 ## Requirements
-
 - Create a React app with three pages:
   1. **Start Page** – where the player can enter their name and begin the game.
   2. **Game Page** – where the memory game is played.
@@ -22,3 +20,8 @@ This is a React project using **TypeScript** and **Tailwind CSS** for styling. Y
 - Implement one additional minor feature of your choice to enhance the game experience.
 - Write unit tests for at least one component or page of your choice.
 - The project should pass **eslint** and **prettier** checks. You can run these checks using the scripts in [package.json](./package.json).
+
+## Submission Instructions
+1. Fork this repository to your own GitHub account.
+2. Implement your solution in the forked repository.
+3. Share the link to your fork with us when you are finished. 
