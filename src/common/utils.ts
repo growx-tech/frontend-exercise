@@ -1,4 +1,3 @@
-
 export const renderGameTiles = (gridSize: number) => {
   const numbers = [
     ...Array(Math.floor((gridSize * gridSize) / 2))

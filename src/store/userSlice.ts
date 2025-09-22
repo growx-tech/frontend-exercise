@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { UserState } from '../common/models'
-import { StringConstants } from '../common/constants';
-
+import { StringConstants } from '../common/constants'
 
 const initialState: UserState = {
   name: StringConstants.emptyString,
@@ -20,4 +19,4 @@ const userSlice = createSlice({
 })
 
 export const { setUser } = userSlice.actions
-export default userSlice.reducer;
+export default userSlice.reducer

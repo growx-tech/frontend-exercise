@@ -1,19 +1,19 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import growy_logo from '../../public/growy_logo.svg'
 import { formatTime, renderGameTiles } from '../common/utils'
 import { useSelector, useDispatch } from 'react-redux'
 import type { RootState, AppDispatch } from '../store/store'
-import { setWon, setEnableMove, setCards, setGridSize, setPages } from '../store/gameSlice'
+import { setWon, setCards, setPages, setResult } from '../store/gameSlice'
 import { Pages } from '../common/models'
 
 const PlayGame = () => {
   const dispatch = useDispatch<AppDispatch>()
   const username = useSelector((state: RootState) => state.user.name)
-
   const gridSize = useSelector((state: RootState) => state.game.gridSize)
   const won = useSelector((state: RootState) => state.game.won)
   const enableMove = useSelector((state: RootState) => state.game.enableMove)
   const cards = useSelector((state: RootState) => state.game.cards)
+  const result = useSelector((state: RootState) => state.game.result)
 
   const [flipped, setFlipped] = useState<number[]>([])
   const [sloved, setSolved] = useState<number[]>([])
@@ -21,7 +21,6 @@ const PlayGame = () => {
   const [timer, setTimer] = useState<number>(0)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const [resetGame, setResetGame] = useState<boolean>(false)
-
 
   useEffect(() => {
     timerRef.current = setInterval(() => {
@@ -33,24 +32,35 @@ const PlayGame = () => {
         clearInterval(timerRef.current)
       }
     }
-  }, [gridSize, enableMove])
+  }, [gridSize, enableMove, resetGame])
 
   useEffect(() => {
     const shuffledCards = renderGameTiles(gridSize)
     dispatch(setCards(shuffledCards))
-    // clean up states;
     setFlipped([])
     setSolved([])
     dispatch(setWon(false))
-   enableMove && setMovesLeft(((gridSize * gridSize) / 2) * 2)
+    enableMove && setMovesLeft(((gridSize * gridSize) / 2) * 2)
     setTimer(0)
+    resetGame && setResetGame(false)
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gridSize, enableMove, resetGame])
 
   useEffect(() => {
-    if (cards.length > 0 && cards.length === sloved.length) {
-      dispatch(setWon(true))
-      timerRef.current !== null && clearInterval(timerRef.current)
+    if (enableMove && movesLeft === 0) {
+      dispatch(setResult([...result, { gameWin: 0, gameLoss: 1, gridSize, time: formatTime(timer), won: false, loss: true }]))
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [movesLeft, enableMove])
+
+  useEffect(() => {
+    if (cards.length > 0 && cards.length === sloved.length) {
+      timerRef.current !== null && clearInterval(timerRef.current)
+      dispatch(setWon(true))
+      dispatch(setResult([...result, { gameWin: 1, gameLoss: 0, gridSize, time: formatTime(timer), won: true, loss: false }]))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sloved, cards])
 
   const handleTileClicked = (id: number) => {
@@ -76,12 +86,6 @@ const PlayGame = () => {
       }
     }
   }
-
-  useEffect(() => {
-    if (enableMove) {
-      setMovesLeft(Math.floor((gridSize * gridSize) / 2) * 2)
-    }
-  }, [gridSize, enableMove])
 
   const checkForMatchedTile = (secondId: number) => {
     const [firstId] = flipped
@@ -153,11 +157,16 @@ const PlayGame = () => {
         </div>
       )}
       <div className='flex w-[50%] items-center justify-center gap-16'>
-        <button className='mt-4 rounded bg-gray-500 px-4 py-2 text-white hover:bg-green-600' name='playAgain' onClick={()=>setResetGame(true)}>
+        <button
+          className='mt-4 rounded bg-gray-500 px-4 py-2 text-white hover:bg-green-600'
+          name='playAgain'
+          onClick={() => setResetGame(!resetGame)}>
           {won ? 'Play Again' : 'Reset'}
         </button>
 
-        <button className='mt-4 rounded bg-gray-500 px-4 py-2 text-white hover:bg-green-600' onClick={()=>dispatch(setPages(Pages.EndGame))}>End Game</button>
+        <button className='mt-4 rounded bg-gray-500 px-4 py-2 text-white hover:bg-green-600' onClick={() => dispatch(setPages(Pages.EndGame))}>
+          End Game
+        </button>
       </div>
     </div>
   )

@@ -6,6 +6,7 @@ import { setEnableMove, setGridSize, setPages } from '../store/gameSlice'
 import { useSelector, useDispatch } from 'react-redux'
 import type { RootState, AppDispatch } from '../store/store'
 import { Pages } from '../common/models'
+import { StringConstants } from '../common/constants'
 
 const StartGame = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -51,18 +52,27 @@ const StartGame = () => {
           alignItems: 'center'
         }}>
         <TextField required id='name' label='FullName' value={user.name} variant='filled' className='mt-4' onChange={(e) => handleChange(e)} />
-
         <TextField required id='email' label='Email' value={user.email} variant='filled' onChange={(e) => handleChange(e)} />
-
-        <TextField required id='standard-basic' label='Grid Size' variant='standard' type='number' minRows={2} maxRows={10} value={gameStat.gridSize} onChange={handleSizeChange} />
-
-        <FormControlLabel control={<Switch checked={gameStat.enableMove} onChange={() => dispatch(setEnableMove(!gameStat.enableMove))} />} label='Limited Moves' />
-
+        <TextField
+          required
+          id='standard-basic'
+          label='Grid Size'
+          variant='standard'
+          type='number'
+          minRows={2}
+          maxRows={10}
+          value={gameStat.gridSize}
+          onChange={handleSizeChange}
+        />
+        <FormControlLabel
+          control={<Switch checked={gameStat.enableMove} onChange={() => dispatch(setEnableMove(!gameStat.enableMove))} />}
+          label='Limited Moves'
+        />
         <Button
           className='rounded border-2 border-gray-300 px-2 py-1'
-          disabled={user.name === '' || user.email === ''}
+          disabled={user.name === StringConstants.emptyString || user.email === StringConstants.emptyString}
           onClick={() => dispatch(setPages(Pages.PlayGame))}>
-          Let's play
+          Play
         </Button>
       </Stack>
     </div>

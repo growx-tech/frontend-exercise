@@ -1,5 +1,5 @@
 import { Pages } from '../common/models'
-import React, { lazy, Suspense, useState } from 'react'
+import { lazy, Suspense } from 'react'
 import Start from './StartGame'
 import EndPage from './EndPage'
 import { useSelector } from 'react-redux'
