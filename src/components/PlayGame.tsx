@@ -49,6 +49,8 @@ const PlayGame = () => {
 
   useEffect(() => {
     if (enableMove && movesLeft === 0) {
+      timerRef.current !== null && clearInterval(timerRef.current)
+      dispatch(setWon(true))
       dispatch(setResult([...result, { gameWin: 0, gameLoss: 1, gridSize, time: formatTime(timer), won: false, loss: true }]))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
